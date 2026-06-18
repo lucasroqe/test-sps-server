@@ -1,52 +1,56 @@
-----------------------------------
-ESPANHOL
-----------------------------------
+# test-sps-server
 
-## Prueba NODE
+API REST para cadastro de usuários com autenticação JWT.
 
-- Crear un CRUD (API REST) en Node para el registro de usuarios.
-- Para la creación de la prueba, utilizar un repositorio falso de usuarios (puede ser en memoria).
+## Stack
 
-## Reglas
+- Node.js + Express
+- SQLite (better-sqlite3)
+- JWT para autenticação
 
-- Debe existir un usuario administrador previamente registrado para utilizar la autenticación (no es necesario cifrar la contraseña):
-{
-  "name": "admin",
-  "email": "admin@spsgroup.com.br",
-  "type": "admin",
-  "password": "1234"
-}
+## Como rodar
 
-- Crear una ruta de autenticación (token Jwt).
-- Las rutas de la API solo pueden ser ejecutadas si el usuario está autenticado.
-- Debe ser posible añadir usuarios con los campos: email, nombre, type, password.
-- No debe ser posible registrar un correo electrónico ya existente.
-- Debe ser posible eliminar usuarios.
-- Debe ser posible modificar los datos de un usuario.
+1. Clone o repositório e entre na pasta:
+```bash
+git clone <url>
+cd test-sps-server
+```
 
+2. Instale as dependências:
+```bash
+npm install
+```
 
-----------------------------------
-PORTUGUÊS
-----------------------------------
+3. Crie um arquivo `.env` na raiz do projeto com o conteúdo:
+```
+JWT_SECRET= chave_super_secreta
 
-# Teste NODE
+PORT=3000
+```
 
-- Criar um CRUD (API REST) em node para cadastro de usuários
-- Para a criação do teste utilizar um repositório fake dos usuários. (Pode ser em memória)
+4. Rode o servidor:
+```bash
+npm run dev
+```
 
-## Regras
+O servidor sobe em `http://localhost:3000`. O banco é criado automaticamente na primeira execução, já com um usuário admin pré-cadastrado:
+```
+email: admin@spsgroup.com.br
 
-- Deve existir um usuário admin previamente cadastrado para utilizar autenticação (não precisa criptografar a senha);
-  {
-    name: "admin",
-    email: "admin@spsgroup.com.br",
-    type: "admin"
-    password: "1234"
-  }
+password: 1234
+```
 
-- Criar rota de autenticação (Jwt token)
-- As rotas da API só podem ser executadas se estiver autenticada
-- Deve ser possível adicionar usuários. Campos: email, nome, type, password
-- Não deve ser possível cadastrar o e-mail já cadastrado
-- Deve ser possível remover usuário
-- Deve ser possível alterar os dados do usuário
+## Rotas
+
+| Método | Rota | Protegida | Descrição |
+|--------|------|-----------|-----------|
+| POST | /login | Não | Autentica e retorna o token JWT |
+| POST | /users | Sim | Cria um novo usuário |
+| GET | /users | Sim | Lista todos os usuários |
+| PUT | /users/:id | Sim | Atualiza um usuário |
+| DELETE | /users/:id | Sim | Remove um usuário |
+
+Rotas protegidas exigem o header:
+```
+Authorization | Bearer <token>
+```
