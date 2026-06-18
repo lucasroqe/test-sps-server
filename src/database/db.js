@@ -14,4 +14,12 @@ db.exec(`
     );
 `)
 
+//seed pra criar admin
+const adminExists = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@spsgroup.com.br');
+
+if (!adminExists) {
+  db.prepare('INSERT INTO users (name, email, password, type) VALUES (?, ?, ?, ?)')
+    .run('admin', 'admin@spsgroup.com.br', '1234', 'admin');
+}
+
 export default db;
