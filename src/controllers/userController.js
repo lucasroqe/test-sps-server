@@ -32,7 +32,7 @@ export function updateUser(req, res) {
         }
 
         db.prepare('UPDATE users SET name = ?, email = ?, type = ? WHERE id = ?').run(name, email, type, id);
-        res.status(201).json({ message: 'Usuário atualizado com sucesso!'});
+        res.status(200).json({ message: 'Usuário atualizado com sucesso!'});
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

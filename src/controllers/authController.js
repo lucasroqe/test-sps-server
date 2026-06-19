@@ -21,6 +21,7 @@ export function loginUser(req, res) {
                 type: user.type
             },
             process.env.JWT_SECRET,
+            { expiresIn: '8h'}
         );
 
         res.json({ token });
